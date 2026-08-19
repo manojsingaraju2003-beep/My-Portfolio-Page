@@ -5,6 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Portfolio of Sambasiva Singaraju — educator, researcher and computer science student.">
   <title>Sambasiva Singaraju | About</title>
+  <script>
+  (function () {
+    const pageURL =
+      new URL(window.location.href);
+
+    const arrivedFromIntro =
+      pageURL.searchParams.get("intro")
+      === "finished";
+
+    if (arrivedFromIntro) {
+      /*
+        Remember that the introduction has played.
+      */
+
+      try {
+        sessionStorage.setItem(
+          "portfolioIntroPlayed",
+          "true"
+        );
+      } catch (error) {
+        /*
+          The URL parameter still prevents a redirect loop when
+          browser storage is unavailable.
+        */
+      }
+
+      /*
+        Remove ?intro=finished without refreshing the page.
+      */
+
+      pageURL.searchParams.delete("intro");
+
+      try {
+        window.history.replaceState(
+          {},
+          document.title,
+          pageURL.pathname
+        );
+      } catch (error) {
+        // The visible query parameter can remain if this fails.
+      }
+    } else {
+      let introAlreadyPlayed = false;
+
+      try {
+        introAlreadyPlayed =
+          sessionStorage.getItem(
+            "portfolioIntroPlayed"
+          ) === "true";
+      } catch (error) {
+        /*
+          Browser storage may be unavailable for file:// pages.
+        */
+      }
+
+      if (!introAlreadyPlayed) {
+        window.location.replace(
+          "intro.html"
+        );
+      }
+    }
+  })();
+</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>

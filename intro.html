@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Introduction to the portfolio of Sambasiva Singaraju."
+  >
+
+  <title>Sambasiva Singaraju | Introduction</title>
+
+  <link rel="stylesheet" href="intro.css">
+
+  <!--
+    Keep the page hidden until JavaScript confirms that the
+    introduction should play. This prevents a flash if someone
+    revisits intro.html after already watching it.
+  -->
+  <style>
+    html {
+      background: #08090b;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="intro">
+    <!-- Decorative animated background -->
+    <div class="intro-background" aria-hidden="true">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <div class="central-orb"></div>
+      <div class="grain"></div>
+    </div>
+
+    <!-- Main animation content -->
+    <div class="intro-content">
+      <p class="intro-eyebrow">
+        Portfolio · Melbourne · Australia
+      </p>
+
+      <div class="intro-logo" aria-label="Sambasiva Singaraju">
+        <span class="logo-main">SS</span>
+        <span class="logo-dot">.</span>
+      </div>
+
+      <div class="intro-line"></div>
+
+      <div class="intro-words">
+        <span>Biomedical Science</span>
+        <span>Computer Science</span>
+        <span>AI in Healthcare</span>
+      </div>
+
+      <p class="intro-name">
+        Sambasiva Singaraju
+      </p>
+    </div>
+
+    <!-- Animation progress indicator -->
+    <div class="intro-progress" aria-hidden="true">
+      <span></span>
+    </div>
+
+    <!-- Visitors should always be able to skip an intro animation. -->
+    <button
+      class="skip-button"
+      id="skip-intro"
+      type="button"
+    >
+      Skip introduction
+      <span aria-hidden="true">↗</span>
+    </button>
+
+    <p
+      class="redirect-message"
+      id="redirect-message"
+      aria-live="polite"
+    >
+      Entering portfolio
+    </p>
+  </main>
+
+  <script src="intro.js"></script>
+</body>
+</html>

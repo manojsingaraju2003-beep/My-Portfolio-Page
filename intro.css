@@ -1,0 +1,703 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;500;600&display=swap");
+
+:root {
+  --background: #08090b;
+  --foreground: #f4f2ed;
+  --muted: #9d9da5;
+  --accent: #c8c7ef;
+  --line: rgba(255, 255, 255, 0.18);
+
+  --display-font: "Oswald", sans-serif;
+  --body-font: "Roboto Condensed", sans-serif;
+
+  /*
+    Keep this synchronized with INTRO_DURATION in intro.js.
+  */
+  --intro-duration: 6s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+
+  color: var(--foreground);
+  background: var(--background);
+
+  font-family: var(--body-font);
+
+  overflow: hidden;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+.intro {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(200, 199, 239, 0.08),
+      transparent 34rem
+    ),
+    #08090b;
+}
+
+
+/* ================================================================
+   ANIMATED BACKGROUND
+   ================================================================ */
+
+.intro-background {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  display: grid;
+  place-items: center;
+
+  pointer-events: none;
+}
+
+.orbit {
+  position: absolute;
+
+  aspect-ratio: 1;
+
+  border: 1px solid rgba(200, 199, 239, 0.22);
+  border-radius: 50%;
+
+  opacity: 0;
+
+  animation:
+    orbit-appear 1.4s ease forwards,
+    orbit-rotate 18s linear infinite;
+}
+
+.orbit-one {
+  width: min(68vw, 850px);
+
+  animation-delay:
+    0.2s,
+    0s;
+}
+
+.orbit-two {
+  width: min(45vw, 570px);
+
+  border-color: rgba(255, 255, 255, 0.14);
+
+  animation-delay:
+    0.45s,
+    0s;
+
+  animation-direction:
+    normal,
+    reverse;
+}
+
+.orbit::before {
+  content: "";
+
+  position: absolute;
+  top: 9%;
+  left: 17%;
+
+  width: 9px;
+  aspect-ratio: 1;
+
+  background: var(--accent);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 14px var(--accent),
+    0 0 35px rgba(200, 199, 239, 0.65);
+}
+
+.central-orb {
+  width: min(23vw, 290px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  opacity: 0;
+  transform: scale(0.1);
+
+  background:
+    radial-gradient(
+      circle at 37% 30%,
+      rgba(255, 255, 255, 0.82),
+      rgba(200, 199, 239, 0.42) 16%,
+      rgba(46, 46, 59, 0.28) 47%,
+      rgba(8, 9, 11, 0.06) 70%
+    );
+
+  box-shadow:
+    0 0 90px rgba(200, 199, 239, 0.18),
+    inset -30px -25px 70px rgba(0, 0, 0, 0.82);
+
+  animation: orb-introduction 4.8s ease forwards;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.1;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.65'/%3E%3C/svg%3E");
+}
+
+
+/* ================================================================
+   INTRODUCTION CONTENT
+   ================================================================ */
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(900px, calc(100% - 3rem));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.intro-eyebrow {
+  margin: 0 0 1rem;
+
+  color: var(--accent);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateY(15px);
+
+  animation: reveal-up 0.8s 0.4s ease forwards;
+}
+
+.intro-logo {
+  display: flex;
+  align-items: flex-end;
+
+  font-family: var(--display-font);
+  font-size: clamp(
+    7rem,
+    min(24vw, 30vh),
+    17rem
+  );
+
+  font-weight: 600;
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+
+  opacity: 0;
+  transform: scale(0.72);
+
+  animation: logo-arrival 1.3s 0.7s
+    cubic-bezier(0.2, 0.8, 0.2, 1)
+    forwards;
+}
+
+.logo-main {
+  color: var(--foreground);
+}
+
+.logo-dot {
+  color: var(--accent);
+}
+
+.intro-line {
+  width: 0;
+  height: 1px;
+
+  margin: clamp(1.2rem, 3vh, 2rem) 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    transparent
+  );
+
+  animation: line-expand 1s 1.75s ease forwards;
+}
+
+/* ================================================================
+   INTRO WORD SEQUENCE
+   ================================================================ */
+
+.intro-words {
+  position: relative;
+
+  width: 100%;
+  height: clamp(3.5rem, 7vw, 5rem);
+
+  font-family: var(--display-font);
+  font-size: clamp(1.4rem, 3vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.intro-words span {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--muted);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateY(16px);
+
+  white-space: nowrap;
+}
+
+/* First phrase: approximately 2.0–3.0 seconds */
+
+.intro-words span:nth-child(1) {
+  animation:
+    temporary-intro-word
+    1s
+    2s
+    ease
+    both;
+}
+
+/* Second phrase: approximately 3.1–4.1 seconds */
+
+.intro-words span:nth-child(2) {
+  animation:
+    temporary-intro-word
+    1s
+    3.1s
+    ease
+    both;
+}
+
+/* Final phrase appears after the second phrase has disappeared */
+
+.intro-words span:nth-child(3) {
+  color: var(--foreground);
+
+  animation:
+    permanent-intro-word
+    0.8s
+    4.2s
+    ease
+    forwards;
+}
+
+/* ================================================================
+   SKIP BUTTON AND PROGRESS
+   ================================================================ */
+
+.skip-button {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 5;
+
+  padding: 0.65rem 0;
+
+  color: var(--muted);
+  background: transparent;
+
+  border: 0;
+  border-bottom: 1px solid var(--line);
+
+  font-family: var(--display-font);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  animation: fade-in 0.7s 1s ease forwards;
+
+  transition:
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.skip-button:hover,
+.skip-button:focus-visible {
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+
+.intro-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 2px;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.intro-progress span {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background: var(--accent);
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  animation:
+    progress-fill
+    var(--intro-duration)
+    linear
+    forwards;
+}
+
+.redirect-message {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+
+  margin: 0;
+
+  color: var(--muted);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateX(-50%);
+
+  animation: fade-in 0.6s 4.8s ease forwards;
+}
+
+
+/* ================================================================
+   EXIT ANIMATION
+
+   intro.js adds .is-leaving before opening index.html.
+   ================================================================ */
+
+.intro.is-leaving {
+  animation: page-exit 0.65s ease forwards;
+}
+
+.intro.is-leaving .intro-content {
+  animation: content-exit 0.6s ease forwards;
+}
+
+
+/* ================================================================
+   KEYFRAMES
+   ================================================================ */
+
+@keyframes orbit-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-rotate {
+  from {
+    rotate: 0deg;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes orb-introduction {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+
+  35% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  72% {
+    opacity: 0.5;
+    transform: scale(1.06);
+  }
+
+  100% {
+    opacity: 0.18;
+    transform: scale(1.7);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logo-arrival {
+  from {
+    opacity: 0;
+    transform: scale(0.72);
+    filter: blur(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes line-expand {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: min(460px, 72vw);
+  }
+}
+
+@keyframes temporary-intro-word {
+  0% {
+    opacity: 0;
+    visibility: visible;
+
+    transform: translateY(16px);
+  }
+
+  20% {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+  }
+
+  70% {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+  }
+
+  99% {
+    opacity: 0;
+    visibility: visible;
+
+    transform: translateY(-16px);
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes permanent-intro-word {
+  0% {
+    opacity: 0;
+    visibility: visible;
+
+    transform: translateY(16px);
+  }
+
+  100% {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes page-exit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes content-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+
+/* ================================================================
+   MOBILE
+   ================================================================ */
+
+@media (max-width: 600px) {
+  .intro-content {
+    width: calc(100% - 2rem);
+  }
+
+  .intro-logo {
+    font-size: clamp(6rem, 38vw, 10rem);
+  }
+
+  .intro-words {
+    height: 5rem;
+
+    font-size: clamp(1.15rem, 6vw, 1.7rem);
+  }
+
+  .intro-words span {
+    padding-inline: 0.5rem;
+
+    white-space: normal;
+    line-height: 1.15;
+  }
+}
+
+  .intro-name {
+    font-size: 0.68rem;
+  }
+
+  .orbit-one {
+    width: 125vw;
+  }
+
+  .orbit-two {
+    width: 88vw;
+  }
+
+  .central-orb {
+    width: 53vw;
+  }
+}
+
+
+/* ================================================================
+   REDUCED MOTION
+
+   Visitors who disable animation are shown a short static version.
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .intro-eyebrow,
+  .intro-logo,
+  .intro-line,
+  .intro-words span:last-child,
+  .intro-name,
+  .skip-button,
+  .redirect-message {
+    opacity: 1;
+    transform: none;
+  }
+
+  .intro-line {
+    width: min(460px, 72vw);
+  }
+
+  .intro-words span:not(:last-child) {
+    display: none;
+  }
+}
