@@ -529,8 +529,6 @@ h1 span {
   object-fit: cover;
   object-position: center top;
 
-  filter: grayscale(1) contrast(1.08);
-
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 48% 48% 2px 2px;
 
@@ -542,9 +540,7 @@ h1 span {
 }
 
 .profile-image:hover {
-  filter: grayscale(0.2) contrast(1.03);
-
-  transform: scale(0.985);
+  transform: scale(1.005);
 }
 
 
